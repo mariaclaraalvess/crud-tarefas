@@ -3,31 +3,30 @@ import styled from "styled-components";
 import { Tema } from "../Tema";
 
 const Card = styled.div`
-  background: ${Tema.card};
-  padding: 14px;
-  border-radius: 10px;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+    background: ${Tema.card};
+    padding: 14px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 `;
 
 const Text = styled.span`
-  flex: 1;
-  color: ${props => (props.done ? Tema.textDim : Tema.text)};
-  text-decoration: ${props => (props.done ? "line-through" : "none")};
+    flex: 1;
+    color: ${props => (props.done ? Tema.textDim : Tema.text)};
+    text-decoration: ${props => (props.done ? "line-through" : "none")};
 `;
 
 const IconBtn = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: ${Tema.textDim};
-  font-size: 18px;
-
-  &:hover {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: ${Tema.textDim};
+    font-size: 18px;
+    &:hover {
     color: ${Tema.purple};
-  }
+    }
 `;
 
 export default function TaskItem({ task, setTasks }) {
