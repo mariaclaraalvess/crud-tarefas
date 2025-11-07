@@ -2,6 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 🎨 Tema padrão (claro) */
+:root {
+  --bg: #ffffff;
+  --card: #f3f2f8;
+  --text: #1a1a1a;
+  --text-dim: #555;
+  --purple: #7b5cff;
+  --purple-dark: #5a3ee8;
+}
+
+/* 🌙 Tema escuro */
+.dark {
+  --bg: #0d0b14;
+  --card: #1a1525;
+  --text: #e8e6f2;
+  --text-dim: #b9b4c9;
+  --purple: #7b5cff;
+  --purple-dark: #5a3ee8;
+}
+
+/* Aplicação global */
 body {
-  @apply bg-bg text-text font-sans;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Poppins", sans-serif;
 }
