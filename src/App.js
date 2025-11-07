@@ -1,6 +1,23 @@
 import { useState, useEffect } from "react";
-import TaskForm from "./components/TaskForm";
-import TaskList from "./components/TaskList";
+import Formulario from "./components/Formulario";
+import List from "./components/List";
+import styled from "styled-components";
+import { Tema } from "./Tema";
+
+const Container = styled.div`
+  background: ${Tema.bg};
+  min-height: 100vh;
+  color: ${Tema.text};
+  padding: 40px;
+  font-family: "Poppins", sans-serif;
+`;
+
+const Title = styled.h1`
+  color: ${Tema.purple};
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: 600;
+`;
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -17,11 +34,11 @@ function App() {
   }, [tasks]);
 
   return (
-    <div style={{ padding: 20 }}>
-      <h1>Minhas Tarefas</h1>
-      <TaskForm setTasks={setTasks} />
-      <TaskList tasks={tasks} setTasks={setTasks} />
-    </div>
+    <Container>
+      <Title>Minhas Tarefas</Title>
+      <Formulario setTasks={setTasks} />
+      <List tasks={tasks} setTasks={setTasks} />
+    </Container>
   );
 }
 
