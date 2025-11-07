@@ -1,82 +1,29 @@
-import { useState } from "react";
+import { doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
-export default function TaskItem({ task, setTasks }) {
-    const [editing, setEditing] = useState(false);
-    const [value, setValue] = useState(task.text);
+export default function TaskItem({ task }) {
 
-    function toggleDone() {
-        setTasks((prev) =>
-            prev.map((t) =>
-                t.id === task.id ? { ...t, done: !t.done } : t
-            )
-        );
+    async function toggleDone() {
+        await updateDoc(doc(db, "tarefas", task.id), {
+            done: !task.done,
+        });
     }
 
-    function saveEdit() {
-        setTasks((prev) =>
-            prev.map((t) =>
-                t.id === task.id ? { ...t, text: value } : t
-            )
-        );
-        setEditing(false);
-    }
-
-    function remove() {
-        setTasks((prev) => prev.filter((t) => t.id !== task.id));
+    async function remove() {
+        await deleteDoc(doc(db, "tarefas", task.id));
     }
 
     return (
-        <div
-            className="flex items-center gap-3 p-4 rounded-xl bg-[var(--card)] border border-[var(--text-dim)] transition"
-        >
-            {/* Concluir */}
-            <button
-                onClick={toggleDone}
-                className="text-[var(--text-dim)] hover:text-[var(--purple)] text-lg"
-            >
+        <div className="flex items-center gap-3 p-4 rounded-xl bg-[var(--card)] border border-[var(--text-dim)] transition">
+            <button onClick={toggleDone} className="text-[var(--text-dim)] hover:text-[var(--purple)]">
                 ✔
             </button>
 
-            {/* Texto ou Input */}
-            {editing ? (
-                <input
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)}
-                    className="flex-1 bg-[var(--card)] text-[var(--text)] border border-[var(--purple)] rounded-md px-2 py-1 outline-none"
-                />
-            ) : (
-                <span
-                    className={`flex-1 ${task.done
-                            ? "line-through text-[var(--text-dim)] opacity-60"
-                            : "text-[var(--text)]"
-                        }`}
-                >
-                    {task.text}
-                </span>
-            )}
+            <span className={`flex-1 ${task.done ? "line-through opacity-50" : ""}`}>
+                {task.text}
+            </span>
 
-            {/* Editar / Salvar */}
-            {editing ? (
-                <button
-                    onClick={saveEdit}
-                    className="text-[var(--text-dim)] hover:text-[var(--purple)] text-lg"
-                >
-                    💾
-                </button>
-            ) : (
-                <button
-                    onClick={() => setEditing(true)}
-                    className="text-[var(--text-dim)] hover:text-[var(--purple)] text-lg"
-                >
-                    ✏️
-                </button>
-            )}
-
-            {/* Remover */}
-            <button
-                onClick={remove}
-                className="text-[var(--text-dim)] hover:text-red-400 text-lg"
-            >
+            <button onClick={remove} className="text-[var(--text-dim)] hover:text-red-400">
                 🗑
             </button>
         </div>
