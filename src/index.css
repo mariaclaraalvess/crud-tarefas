@@ -2,29 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 🎨 Tema padrão (claro) */
+/* 🎨 Tema único (futurista) */
 :root {
-  --bg: #ffffff;
-  --card: #f3f2f8;
-  --text: #1a1a1a;
-  --text-dim: #555;
-  --purple: #7b5cff;
-  --purple-dark: #5a3ee8;
-}
-
-/* 🌙 Tema escuro */
-.dark {
   --bg: #0d0b14;
-  --card: #1a1525;
+  --card: #161320;
   --text: #e8e6f2;
   --text-dim: #b9b4c9;
   --purple: #7b5cff;
   --purple-dark: #5a3ee8;
+  --neon-blue: #00e1ff;
 }
 
-/* Aplicação global */
+/* Fonte suave */
 body {
   background: var(--bg);
   color: var(--text);
+  -webkit-font-smoothing: antialiased;
   font-family: "Poppins", sans-serif;
+}
+
+/* Efeito glass suave (S3 escolhido) */
+.glass {
+  background: rgba(22, 19, 32, 0.55);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+}
+
+/* Animações suaves */
+* {
+  transition: 0.25s ease;
 }

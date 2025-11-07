@@ -23,7 +23,7 @@ export default function TaskList({ user }) {
     }, [user]);
 
     return (
-        <div className="space-y-3">
+        <div className="glass p-4 rounded-xl space-y-3">
             {tasks.length === 0 ? (
                 <p className="text-center opacity-60">Nenhuma tarefa</p>
             ) : (

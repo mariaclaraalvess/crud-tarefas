@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { db } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
+import NeonButton from "./NeonButton";
 
 export default function TaskForm({ user }) {
     const [text, setText] = useState("");
@@ -29,11 +30,8 @@ export default function TaskForm({ user }) {
                 className="flex-1 px-4 py-2 rounded-lg bg-[var(--card)] text-[var(--text)] outline-none"
             />
 
-            <button
-                className="px-4 py-2 rounded-lg bg-[var(--purple)] hover:bg-[var(--purpleDark)] transition font-medium text-white"
-            >
-                Adicionar
-            </button>
+            <NeonButton type="submit">Adicionar</NeonButton>
         </form>
+
     );
 }
