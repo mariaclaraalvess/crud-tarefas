@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { collection, query, where, onSnapshot, orderBy } from "firebase/firestore";
 import TaskItem from "./Item";
+import { Card } from "../components/ui/card";
 
 export default function TaskList({ user }) {
     const [tasks, setTasks] = useState([]);
@@ -23,7 +24,7 @@ export default function TaskList({ user }) {
     }, [user]);
 
     return (
-        <div className="glass p-4 rounded-xl space-y-3">
+        <Card className="p-4 space-y-3 glass">
             {tasks.length === 0 ? (
                 <p className="text-center opacity-60">Nenhuma tarefa</p>
             ) : (
@@ -31,6 +32,6 @@ export default function TaskList({ user }) {
                     <TaskItem key={task.id} task={task} />
                 ))
             )}
-        </div>
+        </Card>
     );
 }

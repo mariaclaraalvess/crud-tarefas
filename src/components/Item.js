@@ -1,66 +1,59 @@
 import { useState } from "react";
 import { db } from "../firebase";
 import { doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { Checkbox } from "../components/ui/checkbox";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../components/ui/dialog";
+import { Input } from "../components/ui/input";
+import { Button } from "../components/ui/button";
 
 export default function TaskItem({ task }) {
-    const [editing, setEditing] = useState(false);
-    const [value, setValue] = useState(task.text);
+    const [open, setOpen] = useState(false);
+    const [editText, setEditText] = useState(task.text);
 
     async function toggleDone() {
         await updateDoc(doc(db, "tarefas", task.id), {
-            done: !task.done,
+            done: !task.done
         });
     }
 
-    async function saveEdit() {
-        if (!value.trim()) return;
+    async function handleSave() {
         await updateDoc(doc(db, "tarefas", task.id), {
-            text: value,
+            text: editText
         });
-        setEditing(false);
+        setOpen(false);
     }
 
-    async function remove() {
+    async function handleDelete() {
         await deleteDoc(doc(db, "tarefas", task.id));
     }
 
     return (
-        <div className="glass flex items-center gap-3 p-4 rounded-xl shadow-[0_0_12px_rgba(0,225,255,0.25)] hover:shadow-[0_0_16px_rgba(123,92,255,0.4)] transition">
-            {/* Concluir */}
-            <button
-                onClick={toggleDone}
-                className="text-[var(--text-dim)] hover:text-[var(--purple)] text-lg"
-            >
-                ✔
-            </button>
+        <div className="flex items-center justify-between bg-[var(--card)] p-3 rounded-lg">
+            <label className="flex items-center gap-3 cursor-pointer">
+                <Checkbox checked={task.done} onCheckedChange={toggleDone} />
+                <span className={task.done ? "line-through opacity-50" : ""}>{task.text}</span>
+            </label>
 
-            {editing ? (
-                <input
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)}
-                    className="flex-1 bg-[var(--card)] text-[var(--text)] border border-[var(--purple)] rounded-md px-2 py-1 outline-none"
-                />
-            ) : (
-                <span
-                    className={`flex-1 ${task.done ? "line-through text-[var(--text-dim)] opacity-60" : "text-[var(--text)]"}`}
-                >
-                    {task.text}
-                </span>
-            )}
+            <div className="flex gap-3 text-lg">
+                <Dialog open={open} onOpenChange={setOpen}>
+                    <DialogTrigger>✏️</DialogTrigger>
 
-            {editing ? (
-                <button onClick={saveEdit} className="text-[var(--text-dim)] hover:text-[var(--purple)] text-lg">
-                    💾
-                </button>
-            ) : (
-                <button onClick={() => setEditing(true)} className="text-[var(--text-dim)] hover:text-[var(--purple)] text-lg">
-                    ✏️
-                </button>
-            )}
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>Editar Tarefa</DialogTitle>
+                        </DialogHeader>
 
-            <button onClick={remove} className="text-[var(--text-dim)] hover:text-red-400 text-lg">
-                🗑
-            </button>
+                        <Input
+                            value={editText}
+                            onChange={(e) => setEditText(e.target.value)}
+                        />
+
+                        <Button onClick={handleSave} className="mt-4">💾 Salvar</Button>
+                    </DialogContent>
+                </Dialog>
+
+                <button onClick={handleDelete}>🗑</button>
+            </div>
         </div>
     );
 }

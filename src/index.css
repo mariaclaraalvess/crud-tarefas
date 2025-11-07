@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 🎨 Tema único (futurista) */
+/*Tema escuro (padrão) */
 :root {
   --bg: #0d0b14;
   --card: #161320;
@@ -10,10 +10,19 @@
   --text-dim: #b9b4c9;
   --purple: #7b5cff;
   --purple-dark: #5a3ee8;
-  --neon-blue: #00e1ff;
 }
 
-/* Fonte suave */
+/*Tema claro */
+.light {
+  --bg: #ffffff;
+  --card: #f3f2f8;
+  --text: #1a1a1a;
+  --text-dim: #555;
+  --purple: #7b5cff;
+  --purple-dark: #5a3ee8;
+}
+
+/* onte suave */
 body {
   background: var(--bg);
   color: var(--text);
@@ -21,15 +30,15 @@ body {
   font-family: "Poppins", sans-serif;
 }
 
-/* Efeito glass suave (S3 escolhido) */
+/*feito glass */
 .glass {
-  background: rgba(22, 19, 32, 0.55);
+  background: var(--card);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 12px;
 }
 
-/* Animações suaves */
+/*Suave animações */
 * {
   transition: 0.25s ease;
 }

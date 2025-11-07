@@ -1,20 +1,21 @@
 import { useState } from "react";
 import { db } from "../firebase";
-import { collection, addDoc } from "firebase/firestore";
-import NeonButton from "./NeonButton";
+import { addDoc, collection } from "firebase/firestore";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "../components/ui/dialog";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
 
 export default function TaskForm({ user }) {
     const [text, setText] = useState("");
 
-    async function handleSubmit(e) {
-        e.preventDefault();
+    async function handleAdd() {
         if (!text.trim()) return;
         if (!user) return alert("Você precisa estar logado!");
 
         await addDoc(collection(db, "tarefas"), {
             text,
             done: false,
-            userId: user.uid, // 🔥 identifica o dono da tarefa
+            userId: user.uid,
             createdAt: Date.now(),
         });
 
@@ -22,16 +23,34 @@ export default function TaskForm({ user }) {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="flex gap-2 mb-6">
-            <input
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                placeholder="Digite uma tarefa..."
-                className="flex-1 px-4 py-2 rounded-lg bg-[var(--card)] text-[var(--text)] outline-none"
-            />
+        <Dialog>
+            <DialogTrigger>
+                {/*Botão flutuante */}
+                <div className="fixed bottom-6 right-6 w-14 h-14 flex items-center justify-center rounded-full bg-[var(--purple)] hover:bg-[var(--purple-dark)] text-white text-3xl shadow-lg cursor-pointer transition">
+                    +
+                </div>
+            </DialogTrigger>
 
-            <NeonButton type="submit">Adicionar</NeonButton>
-        </form>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Adicionar Tarefa</DialogTitle>
+                    <DialogDescription>
+                        Digite o nome da tarefa e clique em “Adicionar”.
+                    </DialogDescription>
+                </DialogHeader>
+
+                <Input
+                    autoFocus
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                    placeholder="Digite a tarefa..."
+                />
+
+                <Button onClick={handleAdd} className="mt-4">
+                    Adicionar
+                </Button>
+            </DialogContent>
+        </Dialog>
 
     );
 }
